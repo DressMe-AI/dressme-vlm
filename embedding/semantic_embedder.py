@@ -11,7 +11,7 @@ api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key)
 
 # Load semantic descriptions
-SEMANTICS_PATH = Path("output/semantics.json")
+SEMANTICS_PATH = Path("../output/semantics.json")
 with open(SEMANTICS_PATH, "r") as f:
     items = json.load(f)
 
@@ -37,10 +37,10 @@ index = faiss.IndexFlatIP(embedding_dim)  # Cosine similarity via dot product on
 index.add(embedding_matrix)
 
 # Save index
-faiss.write_index(index, "output/semantic_index.faiss")
+faiss.write_index(index, "../output/semantic_index.faiss")
 
 # Save ID mapping
-with open("output/id_map.json", "w") as f:
+with open("../output/id_map.json", "w") as f:
     json.dump(ids, f)
 
 print(f"FAISS index built and saved with {index.ntotal} items.")
