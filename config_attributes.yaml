@@ -1,11 +1,5 @@
 # Paths
-data_dir: "./data/images"
 resized_dir: "./data/resized"
 output_path: "./output/attributes.json"
-attribute_prompt_path: "./prompts/attribute_prompt.txt"
-
-# Image settings
-image_size:
-  - 256
-  - 256
+prompt_path: "./prompts/attribute_prompt.txt"
 
