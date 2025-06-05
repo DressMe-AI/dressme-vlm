@@ -3,7 +3,6 @@ data_dir: "../../data/images"
 resized_dir: "../../data/resized"
 output_path: "../../data/attributes_v2.json"
 attribute_prompt_path: "prompts/attribute_prompt.txt"
-semantic_prompt_path: "prompts/semantic_prompt.txt"
 
 # Image settings
 image_size:

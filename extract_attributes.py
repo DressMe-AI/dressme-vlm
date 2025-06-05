@@ -4,6 +4,7 @@ from pathlib import Path
 from openai import OpenAI
 import logging
 from utils import resize_images, load_config, get_openai_client, encode_image_to_base64
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -14,7 +15,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-config = load_config("config.yaml")
+config = load_config("config_attributes.yaml")
 DATA_DIR = Path(config["data_dir"])
 RESIZED_DIR = Path(config["resized_dir"])
 OUTPUT_PATH = Path(config["output_path"])
