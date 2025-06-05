@@ -1,15 +1,12 @@
 import os
 import json
-import base64
 from pathlib import Path
 from openai import OpenAI
-from PIL import Image
-import pandas as pd
-import yaml
 import logging
+from utils import resize_images, load_config, get_openai_client, encode_image_to_base64
 from dotenv import load_dotenv
-
 load_dotenv()
+
 
 logging.basicConfig(
     level=logging.INFO,
@@ -17,81 +14,12 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-def load_config(path: str) -> dict:
-    with open(path, "r") as f:
-        return yaml.safe_load(f)
-
 config = load_config("config.yaml")
-
 DATA_DIR = Path(config["data_dir"])
 RESIZED_DIR = Path(config["resized_dir"])
 OUTPUT_PATH = Path(config["output_path"])
-ATTRIBUTE_PROMPT_PATH = Path(config["attribute_prompt_path"])
-SEMANTIC_PROMPT_PATH = Path(config["semantic_prompt_path"])
+PROMPT_PATH = Path(config["prompt_path"])
 IMG_SIZE = tuple(config["image_size"])
-
-def get_openai_client() -> OpenAI:
-    """
-    Initialize the OpenAI client using an API key from the environment.
-
-    Returns:
-        OpenAI: Authenticated OpenAI client.
-
-    Raises:
-        RuntimeError: If the API key is not set in the environment.
-    """
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        raise RuntimeError("OPENAI_API_KEY not found in environment.")
-    return OpenAI(api_key=api_key)
-
-def resize_images(source_dir: Path, dest_dir: Path,
-                  size: tuple[int, int]) -> list[Path]:
-    """
-    Resize all images in a directory to a fixed size, centered on a white canvas.
-
-    Args:
-        source_dir (Path): Directory containing original images.
-        dest_dir (Path): Output directory for resized images.
-        size (tuple[int, int]): Target width and height.
-
-    Returns:
-        list[Path]: Paths to resized images.
-    """
-    dest_dir.mkdir(parents=True, exist_ok=True)
-    resized_paths = []
-
-    for img_name in os.listdir(source_dir):
-        try:
-            src_path = source_dir / img_name
-            dest_path = dest_dir / img_name
-
-            img = Image.open(src_path).convert("RGB")
-            img.thumbnail(size, Image.LANCZOS)
-            new_img = Image.new("RGB", size, (255, 255, 255))
-            offset = ((size[0] - img.width) // 2, (size[1] - img.height) // 2)
-            new_img.paste(img, offset)
-            new_img.save(dest_path, "JPEG", quality=85)
-            resized_paths.append(dest_path)
-            logger.info(f"Resized {img_name}")
-
-        except Exception as e:
-            logger.error(f"Could not process {img_name}: {e}")
-
-    return resized_paths
-
-def encode_image_to_base64(image_path: Path) -> str:
-    """
-    Encode an image file as a base64 string.
-
-    Args:
-        image_path (Path): Path to the image file.
-
-    Returns:
-        str: Base64-encoded image.
-    """
-    with open(image_path, "rb") as f:
-        return base64.b64encode(f.read()).decode("utf-8")
 
 def extract_attributes(client: OpenAI, image_paths: list[Path]) -> list[dict]:
     """
@@ -105,7 +33,9 @@ def extract_attributes(client: OpenAI, image_paths: list[Path]) -> list[dict]:
         list[dict]: List of dictionaries containing extracted attributes and image IDs.
     """
     attributes = []
-    with open(ATT_PROMPT_PATH, "r") as f:
+
+    PROMPT_PATH = Path(__file__).parent / "prompt.txt"
+    with open(PROMPT_PATH, "r") as f:
         prompt_text = f.read()
 
     for path in image_paths:
@@ -144,7 +74,10 @@ def save_attributes(attributes: list[dict], output_path: Path):
     print(f"[Saved] Attributes to {output_path}")
 
 if __name__ == "__main__":
-    client = get_openai_client()
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY not found in environment.")
+    client = OpenAI(api_key=api_key)
     resized_images = resize_images(DATA_DIR, RESIZED_DIR, IMG_SIZE)
     attributes = extract_attributes(client, resized_images)
     save_attributes(attributes, OUTPUT_PATH)
