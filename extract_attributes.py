@@ -13,7 +13,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s"
 )
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__) 
 
 config = load_config("config_attributes.yaml")
 DATA_DIR = Path(config["data_dir"])
