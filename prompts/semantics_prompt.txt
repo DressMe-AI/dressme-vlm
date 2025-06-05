@@ -1,0 +1,12 @@
+Analyze the clothing item shown in the image and describe it as if you are a fashion expert recommending it to a user.
+
+In 2–3 sentences, summarize:
+
+- What the item looks like and any standout visual features.
+- What type of occasion or setting it's appropriate for (e.g., casual day out, business meeting, summer event).
+- What season or weather it's best suited for.
+
+Be clear, expressive, and concise. Avoid listing structured attributes. Instead, provide a fluid natural-language summary that would help someone decide if the item fits their situation or style.
+
+Return only the description. Do not include any metadata or formatting.
+
