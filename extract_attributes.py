@@ -26,7 +26,8 @@ config = load_config("config.yaml")
 DATA_DIR = Path(config["data_dir"])
 RESIZED_DIR = Path(config["resized_dir"])
 OUTPUT_PATH = Path(config["output_path"])
-PROMPT_PATH = Path(config["prompt_path"])
+ATTRIBUTE_PROMPT_PATH = Path(config["attribute_prompt_path"])
+SEMANTIC_PROMPT_PATH = Path(config["semantic_prompt_path"])
 IMG_SIZE = tuple(config["image_size"])
 
 def get_openai_client() -> OpenAI:
@@ -104,9 +105,7 @@ def extract_attributes(client: OpenAI, image_paths: list[Path]) -> list[dict]:
         list[dict]: List of dictionaries containing extracted attributes and image IDs.
     """
     attributes = []
-
-    PROMPT_PATH = Path(__file__).parent / "prompt.txt"
-    with open(PROMPT_PATH, "r") as f:
+    with open(ATT_PROMPT_PATH, "r") as f:
         prompt_text = f.read()
 
     for path in image_paths:
