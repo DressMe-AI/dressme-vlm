@@ -1,13 +1,13 @@
 import os
 import json
+import glob
 from pathlib import Path
 from openai import OpenAI
 import logging
-
 from utils import resize_images, load_config, get_openai_client, encode_image_to_base64
 from dotenv import load_dotenv
-
 load_dotenv()
+
 
 logging.basicConfig(
     level=logging.INFO,
@@ -16,11 +16,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 config = load_config("config_semantics.yaml")
-DATA_DIR = Path(config["data_dir"])
 RESIZED_DIR = Path(config["resized_dir"])
 OUTPUT_PATH = Path(config["output_path"])
 PROMPT_PATH = Path(config["prompt_path"])
-IMG_SIZE = tuple(config["image_size"])
 
 def extract_semantics(client: OpenAI, image_paths: list[Path]) -> list[dict]:
     with open(PROMPT_PATH, "r") as f:

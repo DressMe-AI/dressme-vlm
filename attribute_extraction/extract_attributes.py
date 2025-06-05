@@ -1,5 +1,6 @@
 import os
 import json
+import glob
 from pathlib import Path
 from openai import OpenAI
 import logging
@@ -16,11 +17,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__) 
 
 config = load_config("config_attributes.yaml")
-DATA_DIR = Path(config["data_dir"])
 RESIZED_DIR = Path(config["resized_dir"])
 OUTPUT_PATH = Path(config["output_path"])
 PROMPT_PATH = Path(config["prompt_path"])
-IMG_SIZE = tuple(config["image_size"])
 
 def extract_attributes(client: OpenAI, image_paths: list[Path]) -> list[dict]:
     """
@@ -79,6 +78,6 @@ if __name__ == "__main__":
     if not api_key:
         raise RuntimeError("OPENAI_API_KEY not found in environment.")
     client = OpenAI(api_key=api_key)
-    resized_images = resize_images(DATA_DIR, RESIZED_DIR, IMG_SIZE)
+    resized_images = sorted(RESIZED_DIR.glob("*.jpeg"))
     attributes = extract_attributes(client, resized_images)
     save_attributes(attributes, OUTPUT_PATH)
