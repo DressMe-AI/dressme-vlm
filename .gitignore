@@ -1,2 +1,4 @@
 .env
 all_code_combined.txt
+__pycache__/
+
