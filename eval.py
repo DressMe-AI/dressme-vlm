@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from utils import encode_image_to_base64, load_config
 from nltk.translate.bleu_score import sentence_bleu
 from rouge_score import rouge_scorer
+from datetime import datetime
 
 load_dotenv()
 
@@ -84,6 +85,43 @@ def print_results(results):
         print(f"- Gen:  {r['generated']}")
         print(f"- Gold: {r['gold']}")
 
+def compute_averages(results):
+    keys = ["bleu", "rouge1", "rouge2", "rougeL"]
+    avg_scores = {k: 0.0 for k in keys}
+
+    for r in results:
+        for k in keys:
+            avg_scores[k] += r[k]
+
+    n = len(results)
+    for k in keys:
+        avg_scores[k] = round(avg_scores[k] / n, 4) if n > 0 else 0.0
+
+    return avg_scores
+
+def save_experiment(prompt_text: str, results: list, output_dir="experiments"):
+    os.makedirs(output_dir, exist_ok=True)
+    timestamp = datetime.utcnow().isoformat()
+    prompt_id = Path(PROMPT_PATH).stem
+
+    averages = compute_averages(results)
+
+    record = {
+        "prompt_id": prompt_id,
+        "prompt_text": prompt_text,
+        "timestamp": timestamp,
+        "results": results,
+        "averages": averages
+    }
+
+    output_path = Path(output_dir) / f"{prompt_id}_{timestamp.replace(':', '-')}.json"
+    with open(output_path, "w") as f:
+        json.dump(record, f, indent=2)
+    print(f"\n[Saved] Evaluation log to {output_path}")
+    print("\n[Average Scores]")
+    for k, v in averages.items():
+        print(f"- {k.upper()}: {v}")
+
 if __name__ == "__main__":
     api_key = os.getenv("OPENAI_API_KEY")
     client = OpenAI(api_key=api_key)
@@ -95,3 +133,5 @@ if __name__ == "__main__":
     generated = generate_descriptions(client, image_paths, prompt_text)
     results = evaluate_outputs(generated, golds)
     print_results(results)
+    save_experiment(prompt_text, results)
+
