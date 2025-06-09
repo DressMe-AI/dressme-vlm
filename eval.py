@@ -9,10 +9,11 @@ from rouge import Rouge
 
 load_dotenv()
 
-# Config paths
-TEST_IMAGE_DIR = Path("data/images/test")
-GOLD_PATH = Path("data/gold_descriptions.json")
-PROMPT_PATH = Path("prompts/semantic_prompt.txt")
+config = load_config("config_semantics.yaml")
+RESIZED_DIR = Path(config["resized_dir"])
+PROMPT_PATH = Path(config["prompt_path"])
+
+GOLD_PATH = Path("data/actual_desc.json")
 
 def load_gold_descriptions():
     with open(GOLD_PATH, "r") as f:
