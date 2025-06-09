@@ -1,0 +1,75 @@
+{
+  "prompt_id": "semantics_prompt",
+  "prompt_text": "Describe this clothing item naturally and concisely, using short, direct phrases. Mention how it looks or feels, what season or weather it suits, and how it might be styled. Use simple sentence fragments or casual descriptions \u2014 as if someone was jotting this down quickly in a wardrobe app.\n\nExample 1 (top):\nFlowy shirt. Great for warm summer, spring or fall days. Goes great with jeans for a casual look, or with black pants for a more dressy look. Striped pattern. Blue, white, and orange.\n\nExample 2 (bottom):\nRipped jeans. Loose fitting and great for a casual look. Very comfortable to wear. Rips are great for airflow and when it's warm, and add to flexibility and comfort of the jean. Also can be worn in cold weather.",
+  "timestamp": "2025-06-09T20:49:01.636022",
+  "results": [
+    {
+      "id": "bottom_11",
+      "generated": "Black midi skirt. Sleek and versatile. Suitable for cooler or mild weather. Can be dressed up with heels and a blouse. Pair with a sweater and boots for a cozy look. Smooth fabric. Classic staple.",
+      "gold": "Black skirt. Silky and flowy. Can be dressed up or down. Great anything  from crop tops or sweaters. Can be worn in all weather.",
+      "bleu": 0.1506,
+      "rouge1": 0.339,
+      "rouge2": 0.1053,
+      "rougeL": 0.2712,
+      "cosine": 0.7139
+    },
+    {
+      "id": "bottom_14",
+      "generated": "Ripped jeans. Distressed look. Dark blue denim. Casual vibe. Ideal for spring or fall. Pair with a T-shirt or hoodie. Versatile\u2014can be dressed up or down. Comfortable and trendy.",
+      "gold": "Ripped jeans. Loose fitting and great for a casual look. Very comfortable to wear. Rips are great for airflow and when it's warm, and add to flexibility and comfort of the jean. Also can be worn in cold weather.",
+      "bleu": 0.0658,
+      "rouge1": 0.2817,
+      "rouge2": 0.058,
+      "rougeL": 0.169,
+      "cosine": 0.7431
+    },
+    {
+      "id": "bottom_5",
+      "generated": "White linen pants. Lightweight and breathable. Perfect for spring and summer. Casual or beachy vibe. Pair with a simple tee or flowy blouse. Rolled cuffs add style.",
+      "gold": "Linen pants. Can be either casual or dressed up. Great for hot weather. Lightweight and airy .",
+      "bleu": 0.0844,
+      "rouge1": 0.3256,
+      "rouge2": 0.1463,
+      "rougeL": 0.186,
+      "cosine": 0.8117
+    },
+    {
+      "id": "top_20",
+      "generated": "Hawaiian shirt. Bright floral pattern. Lightweight, breathable fabric. Perfect for summer or beach days. Pairs well with shorts or light jeans. Casual, relaxed vibe. Ideal for vacations or laid-back gatherings.",
+      "gold": "Hawaiian tropical shirt. Great for warm summer days. Casual and fun. Colorful flowers and plants.",
+      "bleu": 0.0,
+      "rouge1": 0.2609,
+      "rouge2": 0.0,
+      "rougeL": 0.2609,
+      "cosine": 0.8448
+    },
+    {
+      "id": "top_25",
+      "generated": "Soft, brown t-shirt. Lightweight and comfy. Perfect for spring or summer. Relaxed fit. Pairs well with shorts or jeans. Casual vibe.",
+      "gold": "Rusty flowy shirt. Not a crop top. Loose fitting. Lightweight. Great for warm days on its own. Great for cool days under a sweater. Warm colored. No pattern.",
+      "bleu": 0.0,
+      "rouge1": 0.16,
+      "rouge2": 0.0,
+      "rougeL": 0.12,
+      "cosine": 0.6083
+    },
+    {
+      "id": "top_9",
+      "generated": "Striped blouse. Bold orange, black, white, blue stripes. Short sleeves, relaxed fit. Lightweight, perfect for spring or summer. Pair with jeans or skirt for casual look. Dresses up with trousers. Bright, eye-catching.",
+      "gold": "Flowy shirt. Great for warm summer, spring or fall days. Goes great with jeans for a casual look, or with black pants for a more dressy look. Striped pattern. Blue, white, and orange.",
+      "bleu": 0.1508,
+      "rouge1": 0.4848,
+      "rouge2": 0.0938,
+      "rougeL": 0.2727,
+      "cosine": 0.7453
+    }
+  ],
+  "averages": {
+    "bleu": 0.0753,
+    "rouge1": 0.3087,
+    "rouge2": 0.0672,
+    "rougeL": 0.2133,
+    "cosine": 0.7445
+  },
+  "top1_accuracy": 0.8333
+}
