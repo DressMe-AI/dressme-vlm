@@ -3,21 +3,24 @@ import json
 from pathlib import Path
 from openai import OpenAI
 from dotenv import load_dotenv
-from utils import encode_image_to_base64
+from utils import encode_image_to_base64, load_config
 from nltk.translate.bleu_score import sentence_bleu
 from rouge import Rouge
 
 load_dotenv()
 
+# Load config
 config = load_config("config_semantics.yaml")
-RESIZED_DIR = Path(config["resized_dir"])
+TEST_IMG_DIR = Path(config["resized_dir"])
 PROMPT_PATH = Path(config["prompt_path"])
-
 GOLD_PATH = Path("data/actual_desc.json")
+
+# Select only these 6 images
+SELECTED_IDS = {"top_9", "top_20", "top_25", "bottom_14", "bottom_5", "bottom_11"}
 
 def load_gold_descriptions():
     with open(GOLD_PATH, "r") as f:
-        return json.load(f)  # { "top_1": "gold desc", ... }
+        return json.load(f)  # { "top_9": "...", ... }
 
 def load_prompt():
     with open(PROMPT_PATH, "r") as f:
@@ -27,6 +30,8 @@ def generate_descriptions(client: OpenAI, image_paths: list[Path], prompt_text: 
     results = []
     for path in image_paths:
         img_id = path.stem
+        if img_id not in SELECTED_IDS:
+            continue
         base64_img = encode_image_to_base64(path)
         response = client.chat.completions.create(
             model="gpt-4o",
@@ -80,7 +85,7 @@ if __name__ == "__main__":
     client = OpenAI(api_key=api_key)
 
     prompt_text = load_prompt()
-    image_paths = sorted(TEST_IMAGE_DIR.glob("*.jpeg"))
+    image_paths = sorted(TEST_IMG_DIR.glob("*.jpeg"))
     golds = load_gold_descriptions()
 
     generated = generate_descriptions(client, image_paths, prompt_text)
