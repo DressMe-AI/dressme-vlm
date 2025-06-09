@@ -1,11 +1,4 @@
-Analyze the clothing item shown in the image and describe it as if you are a fashion expert recommending it to a user.
-
-In 2–3 sentences, summarize:
-
-- What the item looks like and any standout visual features.
-- What type of occasion or setting it's appropriate for (e.g., casual day out, business meeting, summer event).
-- What season or weather it's best suited for.
-
+Pretend you’re a user thinking about wearing this item to work. Describe it in 2–3 casual sentences using natural 'I' statements, like how someone might talk when picking an outfit. Mention what it looks like or feels like, what kind of work setting or occasion it fits (like a presentation, meeting, or casual Friday), and what weather or season it’s good for. Keep it fluid and realistic, just like how someone would say it out loud.
 Be clear, expressive, and concise. Avoid listing structured attributes. Instead, provide a fluid natural-language summary that would help someone decide if the item fits their situation or style.
 
 Return only the description. Do not include any metadata or formatting.
