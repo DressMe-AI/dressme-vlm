@@ -1,0 +1,75 @@
+{
+  "prompt_id": "semantics_prompt",
+  "prompt_text": "Describe the clothing item clearly and naturally, using short descriptive phrases or sentence fragments. Focus on what it looks like (color, pattern, fit), how it feels (material, weight), when it\u2019s best worn (season or weather), what kind of work setting or day it suits (e.g., casual Friday, presentation, chilly morning), and what it pairs well with (like pants, skirts, or layers). Mention any standout features like neckline, cut, or details.\nKeep the language simple and concise, like a person jotting this down in a style app. Just return the description, no formatting or bullet points.\n\nExample 1 (top):\nFlowy shirt. Great for warm summer, spring or fall days. Goes great with jeans for a casual look, or with black pants for a more dressy look. Striped pattern. Blue, white, and orange.\n\nExample 2 (bottom):\nRipped jeans. Loose fitting and great for a casual look. Very comfortable to wear. Rips are great for airflow and when it's warm, and add to flexibility and comfort of the jean. Also can be worn in cold weather.",
+  "timestamp": "2025-06-09T20:58:56.097653",
+  "results": [
+    {
+      "id": "bottom_11",
+      "generated": "Black pencil skirt. Sleek and fitted. Suitable for formal settings or office wear. Great for cool to moderate weather. Pairs well with blouses or tailored jackets. Smooth, lightweight fabric. Side slit adds a stylish touch.",
+      "gold": "Black skirt. Silky and flowy. Can be dressed up or down. Great anything  from crop tops or sweaters. Can be worn in all weather.",
+      "bleu": 0.0,
+      "rouge1": 0.2373,
+      "rouge2": 0.0,
+      "rougeL": 0.2034,
+      "cosine": 0.6235
+    },
+    {
+      "id": "bottom_14",
+      "generated": "Distressed blue jeans. Casual and comfortable fit. Medium weight denim. Ideal for spring and fall. Works well for laid-back weekends or casual Fridays. Pairs perfectly with a t-shirt or sweater. Ripped details add character and breathability. Frayed hem for an edgy touch.",
+      "gold": "Ripped jeans. Loose fitting and great for a casual look. Very comfortable to wear. Rips are great for airflow and when it's warm, and add to flexibility and comfort of the jean. Also can be worn in cold weather.",
+      "bleu": 0.0,
+      "rouge1": 0.2857,
+      "rouge2": 0.0244,
+      "rougeL": 0.1905,
+      "cosine": 0.6559
+    },
+    {
+      "id": "bottom_5",
+      "generated": "White linen pants. Lightweight and breathable. Perfect for warm spring or summer days. Ideal for casual outings or beachwear. Comfortable fit, slightly loose. Looks great with light blouses or T-shirts. Simple design, no standout details. Pairs well with sandals or casual sneakers.",
+      "gold": "Linen pants. Can be either casual or dressed up. Great for hot weather. Lightweight and airy .",
+      "bleu": 0.059,
+      "rouge1": 0.2712,
+      "rouge2": 0.0702,
+      "rougeL": 0.1695,
+      "cosine": 0.82
+    },
+    {
+      "id": "top_20",
+      "generated": "Hawaiian shirt. Perfect for summer or tropical vacations. Black background with vibrant floral pattern in red, yellow, and green. Short sleeves and relaxed fit. Lightweight and breathable. Ideal for casual outings, barbecues, or beach days. Pairs well with shorts or light-colored pants.",
+      "gold": "Hawaiian tropical shirt. Great for warm summer days. Casual and fun. Colorful flowers and plants.",
+      "bleu": 0.0,
+      "rouge1": 0.3448,
+      "rouge2": 0.0,
+      "rougeL": 0.2069,
+      "cosine": 0.8373
+    },
+    {
+      "id": "top_25",
+      "generated": "Lightweight brown T-shirt. Soft, comfortable fabric. Relaxed fit. Suits warm or mild weather. Perfect for casual settings or laid-back workdays. Wear with jeans or shorts. Features a V-neckline.",
+      "gold": "Rusty flowy shirt. Not a crop top. Loose fitting. Lightweight. Great for warm days on its own. Great for cool days under a sweater. Warm colored. No pattern.",
+      "bleu": 0.0,
+      "rouge1": 0.2034,
+      "rouge2": 0.0,
+      "rougeL": 0.1695,
+      "cosine": 0.6021
+    },
+    {
+      "id": "top_9",
+      "generated": "Striped top with bold colors. Red, white, black, and blue stripes. Short sleeves with a loose fit. Lightweight and comfortable. Ideal for spring and summer days. Perfect for casual outings. Pairs well with jeans or skirts. Rounded neckline. Vibrant and eye-catching design.",
+      "gold": "Flowy shirt. Great for warm summer, spring or fall days. Goes great with jeans for a casual look, or with black pants for a more dressy look. Striped pattern. Blue, white, and orange.",
+      "bleu": 0.0869,
+      "rouge1": 0.4211,
+      "rouge2": 0.027,
+      "rougeL": 0.1842,
+      "cosine": 0.7041
+    }
+  ],
+  "averages": {
+    "bleu": 0.0243,
+    "rouge1": 0.2939,
+    "rouge2": 0.0203,
+    "rougeL": 0.1873,
+    "cosine": 0.7072
+  },
+  "top1_accuracy": 1.0
+}

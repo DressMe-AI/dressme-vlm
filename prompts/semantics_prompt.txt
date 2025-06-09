@@ -1,5 +1,8 @@
-Pretend you’re a user thinking about wearing this item to work. Describe it in 2–3 casual sentences using natural 'I' statements, like how someone might talk when picking an outfit. Mention what it looks like or feels like, what kind of work setting or occasion it fits (like a presentation, meeting, or casual Friday), and what weather or season it’s good for. Keep it fluid and realistic, just like how someone would say it out loud.
-Be clear, expressive, and concise. Avoid listing structured attributes. Instead, provide a fluid natural-language summary that would help someone decide if the item fits their situation or style.
+Describe the clothing item clearly and naturally, using short descriptive phrases or sentence fragments. Focus on what it looks like (color, pattern, fit), how it feels (material, weight), when it’s best worn (season or weather), what kind of work setting or day it suits (e.g., casual Friday, presentation, chilly morning), and what it pairs well with (like pants, skirts, or layers). Mention any standout features like neckline, cut, or details.
+Keep the language simple and concise, like a person jotting this down in a style app. Just return the description, no formatting or bullet points.
 
-Return only the description. Do not include any metadata or formatting.
+Example 1 (top):
+Flowy shirt. Great for warm summer, spring or fall days. Goes great with jeans for a casual look, or with black pants for a more dressy look. Striped pattern. Blue, white, and orange.
 
+Example 2 (bottom):
+Ripped jeans. Loose fitting and great for a casual look. Very comfortable to wear. Rips are great for airflow and when it's warm, and add to flexibility and comfort of the jean. Also can be worn in cold weather.

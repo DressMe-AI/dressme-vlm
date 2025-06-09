@@ -1,0 +1,67 @@
+{
+  "prompt_id": "semantics_prompt",
+  "prompt_text": "Pretend you\u2019re a user thinking about wearing this item to work. Describe it in 2\u20133 casual sentences using natural 'I' statements, like how someone might talk when picking an outfit. Mention what it looks like or feels like, what kind of work setting or occasion it fits (like a presentation, meeting, or casual Friday), and what weather or season it\u2019s good for. Keep it fluid and realistic, just like how someone would say it out loud.\nBe clear, expressive, and concise. Avoid listing structured attributes. Instead, provide a fluid natural-language summary that would help someone decide if the item fits their situation or style.\n\nReturn only the description. Do not include any metadata or formatting.",
+  "timestamp": "2025-06-09T20:36:40.610498",
+  "results": [
+    {
+      "id": "bottom_11",
+      "generated": "This black skirt feels sleek and professional, perfect for an important meeting or presentation. I think it would be great for the cooler months, maybe in fall or early winter, since it looks a bit heavier. Paired with a nice blouse and some heels, I think it\u2019ll really make me feel confident at work.",
+      "gold": "Black skirt. Silky and flowy. Can be dressed up or down. Great anything  from crop tops or sweaters. Can be worn in all weather.",
+      "bleu": 0.0,
+      "rouge1": 0.2025,
+      "rouge2": 0.026,
+      "rougeL": 0.1519
+    },
+    {
+      "id": "bottom_14",
+      "generated": "These jeans have a cool, relaxed vibe with some distressed details, making them perfect for a casual Friday at work. They feel comfortable and easygoing, great for a laid-back atmosphere or a creative office setting. I\u2019d choose them for spring or fall, when the weather's just right for a denim look.",
+      "gold": "Ripped jeans. Loose fitting and great for a casual look. Very comfortable to wear. Rips are great for airflow and when it's warm, and add to flexibility and comfort of the jean. Also can be worn in cold weather.",
+      "bleu": 0.1085,
+      "rouge1": 0.2766,
+      "rouge2": 0.0652,
+      "rougeL": 0.2128
+    },
+    {
+      "id": "bottom_5",
+      "generated": "These light linen pants feel super breathable, perfect for a casual Friday at the office or a relaxed summer meeting. I love how they keep me cool and comfortable, especially on warm days. They're great for when I want to look put-together without sacrificing comfort.",
+      "gold": "Linen pants. Can be either casual or dressed up. Great for hot weather. Lightweight and airy .",
+      "bleu": 0.0,
+      "rouge1": 0.2222,
+      "rouge2": 0.0656,
+      "rougeL": 0.1905
+    },
+    {
+      "id": "top_20",
+      "generated": "This shirt has such vibrant tropical vibes, perfect for a relaxed or casual Friday at the office. The light and breezy fabric feels comfortable, making it ideal for warmer spring or summer days. I could totally see myself wearing this to add a fun touch to a meeting or a laid-back presentation.",
+      "gold": "Hawaiian tropical shirt. Great for warm summer days. Casual and fun. Colorful flowers and plants.",
+      "bleu": 0.0434,
+      "rouge1": 0.2353,
+      "rouge2": 0.0303,
+      "rougeL": 0.1471
+    },
+    {
+      "id": "top_25",
+      "generated": "This shirt has such a relaxed vibe with its earthy color and comfy feel, making it perfect for casual Fridays at the office. I can see it working well for warmer days in spring or summer since it\u2019s lightweight and breezy. It\u2019s laid-back enough for an easygoing meeting or just getting through a regular workday.",
+      "gold": "Rusty flowy shirt. Not a crop top. Loose fitting. Lightweight. Great for warm days on its own. Great for cool days under a sweater. Warm colored. No pattern.",
+      "bleu": 0.0,
+      "rouge1": 0.2093,
+      "rouge2": 0.0,
+      "rougeL": 0.1395
+    },
+    {
+      "id": "top_9",
+      "generated": "This striped top has such a fun mix of colors that I think it would be perfect for a casual Friday at work. The fabric feels light and breezy, so it seems great for spring or summer days when I\u2019m running between meetings. I could see myself feeling comfortable yet stylish, especially if I pair it with some nice jeans or a simple skirt.",
+      "gold": "Flowy shirt. Great for warm summer, spring or fall days. Goes great with jeans for a casual look, or with black pants for a more dressy look. Striped pattern. Blue, white, and orange.",
+      "bleu": 0.0945,
+      "rouge1": 0.3061,
+      "rouge2": 0.0833,
+      "rougeL": 0.1837
+    }
+  ],
+  "averages": {
+    "bleu": 0.0411,
+    "rouge1": 0.242,
+    "rouge2": 0.0451,
+    "rougeL": 0.1709
+  }
+}

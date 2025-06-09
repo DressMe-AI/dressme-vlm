@@ -1,0 +1,74 @@
+{
+  "prompt_id": "semantics_prompt",
+  "prompt_text": "Describe this clothing item naturally and concisely, using short, direct phrases. Mention how it looks or feels, what season or weather it suits, and how it might be styled. Use simple sentence fragments or casual descriptions \u2014 as if someone was jotting this down quickly in a wardrobe app.\n\nExample 1 (top):\nFlowy shirt. Great for warm summer, spring or fall days. Goes great with jeans for a casual look, or with black pants for a more dressy look. Striped pattern. Blue, white, and orange.\n\nExample 2 (bottom):\nRipped jeans. Loose fitting and great for a casual look. Very comfortable to wear. Rips are great for airflow and when it's warm, and add to flexibility and comfort of the jean. Also can be worn in cold weather.",
+  "timestamp": "2025-06-09T20:46:39.030071",
+  "results": [
+    {
+      "id": "bottom_11",
+      "generated": "Black pencil skirt. Sleek and professional. Perfect for office wear or formal events. Suitable for fall and winter. Pair with blouses or blazers. Smooth fabric, knee-length. Versatile and classic piece.",
+      "gold": "Black skirt. Silky and flowy. Can be dressed up or down. Great anything  from crop tops or sweaters. Can be worn in all weather.",
+      "bleu": 0.0,
+      "rouge1": 0.1818,
+      "rouge2": 0.0,
+      "rougeL": 0.1818,
+      "cosine": 0.5768
+    },
+    {
+      "id": "bottom_14",
+      "generated": "Distressed jeans. Dark wash with rips. Casual, edgy vibe. Good for spring and fall. Pair with a graphic tee or hoodie. Comfortable and relaxed fit.",
+      "gold": "Ripped jeans. Loose fitting and great for a casual look. Very comfortable to wear. Rips are great for airflow and when it's warm, and add to flexibility and comfort of the jean. Also can be worn in cold weather.",
+      "bleu": 0.0,
+      "rouge1": 0.2769,
+      "rouge2": 0.0,
+      "rougeL": 0.1538,
+      "cosine": 0.6947
+    },
+    {
+      "id": "bottom_5",
+      "generated": "White linen pants. Lightweight, breathable. Perfect for spring and summer. Easy-going, relaxed fit. Pairs well with sandals and a light blouse. Casual and beachy vibe.",
+      "gold": "Linen pants. Can be either casual or dressed up. Great for hot weather. Lightweight and airy .",
+      "bleu": 0.0,
+      "rouge1": 0.2857,
+      "rouge2": 0.05,
+      "rougeL": 0.1905,
+      "cosine": 0.8299
+    },
+    {
+      "id": "top_20",
+      "generated": "Hawaiian shirt. Bright floral pattern. Lightweight and breathable. Perfect for summer or vacation vibes. Pairs well with shorts or light jeans. Casual, relaxed fit. Tropical beach style.",
+      "gold": "Hawaiian tropical shirt. Great for warm summer days. Casual and fun. Colorful flowers and plants.",
+      "bleu": 0.0,
+      "rouge1": 0.3333,
+      "rouge2": 0.0,
+      "rougeL": 0.2381,
+      "cosine": 0.8624
+    },
+    {
+      "id": "top_25",
+      "generated": "Soft, brown t-shirt. Lightweight and breathable. Perfect for warm weather. Casual vibe. Looks great with jeans or shorts. Versatile earthy tone.",
+      "gold": "Rusty flowy shirt. Not a crop top. Loose fitting. Lightweight. Great for warm days on its own. Great for cool days under a sweater. Warm colored. No pattern.",
+      "bleu": 0.0494,
+      "rouge1": 0.2,
+      "rouge2": 0.0417,
+      "rougeL": 0.2,
+      "cosine": 0.6133
+    },
+    {
+      "id": "top_9",
+      "generated": "Striped top. Bold colors: orange, white, black, and blue. Short sleeves, slightly loose fit. Great for spring or summer. Pairs well with jeans or shorts. Casual vibe. Lightweight fabric.",
+      "gold": "Flowy shirt. Great for warm summer, spring or fall days. Goes great with jeans for a casual look, or with black pants for a more dressy look. Striped pattern. Blue, white, and orange.",
+      "bleu": 0.1674,
+      "rouge1": 0.4839,
+      "rouge2": 0.1,
+      "rougeL": 0.2258,
+      "cosine": 0.7585
+    }
+  ],
+  "averages": {
+    "bleu": 0.0361,
+    "rouge1": 0.2936,
+    "rouge2": 0.0319,
+    "rougeL": 0.1983,
+    "cosine": 0.7226
+  }
+}
