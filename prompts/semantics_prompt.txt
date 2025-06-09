@@ -1,4 +1,5 @@
-Describe this clothing item naturally and concisely, using short, direct phrases. Mention how it looks or feels, what season or weather it suits, and how it might be styled. Use simple sentence fragments or casual descriptions — as if someone was jotting this down quickly in a wardrobe app.
+Describe the clothing item clearly and naturally, using short descriptive phrases or sentence fragments. Focus on what it looks like (color, pattern, fit), how it feels (material, weight), when it’s best worn (season or weather), what kind of work setting or day it suits (e.g., casual Friday, presentation, chilly morning), and what it pairs well with (like pants, skirts, or layers). Mention any standout features like neckline, cut, or details.
+Keep the language simple and concise, like a person jotting this down in a style app. Just return the description, no formatting or bullet points.
 
 Example 1 (top):
 Flowy shirt. Great for warm summer, spring or fall days. Goes great with jeans for a casual look, or with black pants for a more dressy look. Striped pattern. Blue, white, and orange.
