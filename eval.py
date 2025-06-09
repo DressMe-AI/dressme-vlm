@@ -7,6 +7,7 @@ from utils import encode_image_to_base64, load_config
 from nltk.translate.bleu_score import sentence_bleu
 from rouge_score import rouge_scorer
 from datetime import datetime
+import numpy as np
 
 load_dotenv()
 
@@ -21,7 +22,7 @@ SELECTED_IDS = {"top_9", "top_20", "top_25", "bottom_14", "bottom_5", "bottom_11
 
 def load_gold_descriptions():
     with open(GOLD_PATH, "r") as f:
-        return json.load(f)  # { "top_9": "...", ... }
+        return json.load(f)
 
 def load_prompt():
     with open(PROMPT_PATH, "r") as f:
@@ -49,11 +50,28 @@ def generate_descriptions(client: OpenAI, image_paths: list[Path], prompt_text: 
         print(f"[Generated] {img_id}: {gen_text}")
     return results
 
-def evaluate_outputs(generated, golds):
+def cosine_similarity(a, b):
+    a = np.array(a)
+    b = np.array(b)
+    return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
+
+def evaluate_outputs(generated, golds, client):
     scorer = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=True)
     results = []
 
-    for img_id, gen_text in generated:
+    gen_texts = [gen for _, gen in generated]
+    gold_texts = [golds.get(id) for id, _ in generated]
+
+    # Batch embed
+    embedding_response = client.embeddings.create(
+        model="text-embedding-3-small",
+        input=gen_texts + gold_texts
+    )
+    embeddings = [e.embedding for e in embedding_response.data]
+    gen_embeddings = embeddings[:len(gen_texts)]
+    gold_embeddings = embeddings[len(gen_texts):]
+
+    for i, (img_id, gen_text) in enumerate(generated):
         gold_text = golds.get(img_id)
         if not gold_text:
             print(f"[Warning] No gold description for {img_id}")
@@ -61,6 +79,7 @@ def evaluate_outputs(generated, golds):
 
         bleu = sentence_bleu([gold_text.split()], gen_text.split(), weights=(0.5, 0.5))
         scores = scorer.score(gold_text, gen_text)
+        cosine_sim = cosine_similarity(gen_embeddings[i], gold_embeddings[i])
 
         result = {
             "id": img_id,
@@ -69,7 +88,8 @@ def evaluate_outputs(generated, golds):
             "bleu": round(bleu, 4),
             "rouge1": round(scores["rouge1"].fmeasure, 4),
             "rouge2": round(scores["rouge2"].fmeasure, 4),
-            "rougeL": round(scores["rougeL"].fmeasure, 4)
+            "rougeL": round(scores["rougeL"].fmeasure, 4),
+            "cosine": round(cosine_sim, 4)
         }
         results.append(result)
 
@@ -82,11 +102,12 @@ def print_results(results):
         print(f"- ROUGE-1: {r['rouge1']}")
         print(f"- ROUGE-2: {r['rouge2']}")
         print(f"- ROUGE-L: {r['rougeL']}")
+        print(f"- COSINE: {r['cosine']}")
         print(f"- Gen:  {r['generated']}")
         print(f"- Gold: {r['gold']}")
 
 def compute_averages(results):
-    keys = ["bleu", "rouge1", "rouge2", "rougeL"]
+    keys = ["bleu", "rouge1", "rouge2", "rougeL", "cosine"]
     avg_scores = {k: 0.0 for k in keys}
 
     for r in results:
@@ -131,7 +152,6 @@ if __name__ == "__main__":
     golds = load_gold_descriptions()
 
     generated = generate_descriptions(client, image_paths, prompt_text)
-    results = evaluate_outputs(generated, golds)
+    results = evaluate_outputs(generated, golds, client)
     print_results(results)
     save_experiment(prompt_text, results)
-
