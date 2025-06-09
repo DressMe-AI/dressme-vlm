@@ -5,7 +5,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from utils import encode_image_to_base64, load_config
 from nltk.translate.bleu_score import sentence_bleu
-from rouge import Rouge
+from rouge_score import rouge_scorer
 
 load_dotenv()
 
@@ -49,7 +49,7 @@ def generate_descriptions(client: OpenAI, image_paths: list[Path], prompt_text: 
     return results
 
 def evaluate_outputs(generated, golds):
-    rouge = Rouge()
+    scorer = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=True)
     results = []
 
     for img_id, gen_text in generated:
@@ -59,14 +59,16 @@ def evaluate_outputs(generated, golds):
             continue
 
         bleu = sentence_bleu([gold_text.split()], gen_text.split(), weights=(0.5, 0.5))
-        rouge_scores = rouge.get_scores(gen_text, gold_text)[0]
+        scores = scorer.score(gold_text, gen_text)
 
         result = {
             "id": img_id,
             "generated": gen_text,
             "gold": gold_text,
             "bleu": round(bleu, 4),
-            "rouge_l": round(rouge_scores["rouge-l"]["f"], 4)
+            "rouge1": round(scores["rouge1"].fmeasure, 4),
+            "rouge2": round(scores["rouge2"].fmeasure, 4),
+            "rougeL": round(scores["rougeL"].fmeasure, 4)
         }
         results.append(result)
 
@@ -76,7 +78,9 @@ def print_results(results):
     for r in results:
         print(f"\n[ID: {r['id']}]")
         print(f"- BLEU: {r['bleu']}")
-        print(f"- ROUGE-L: {r['rouge_l']}")
+        print(f"- ROUGE-1: {r['rouge1']}")
+        print(f"- ROUGE-2: {r['rouge2']}")
+        print(f"- ROUGE-L: {r['rougeL']}")
         print(f"- Gen:  {r['generated']}")
         print(f"- Gold: {r['gold']}")
 
