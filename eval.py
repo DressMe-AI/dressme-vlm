@@ -8,6 +8,7 @@ from nltk.translate.bleu_score import sentence_bleu
 from rouge_score import rouge_scorer
 from datetime import datetime
 import numpy as np
+from collections import defaultdict, Counter
 
 load_dotenv()
 
@@ -63,7 +64,6 @@ def evaluate_outputs(generated, golds, client):
     gold_ids = [id for id, _ in generated]
     gold_texts = [golds.get(id) for id in gold_ids]
 
-    # Embed everything in one batch
     embedding_response = client.embeddings.create(
         model="text-embedding-3-small",
         input=gen_texts + gold_texts
@@ -72,7 +72,8 @@ def evaluate_outputs(generated, golds, client):
     gen_embeddings = embeddings[:len(gen_texts)]
     gold_embeddings = embeddings[len(gen_texts):]
 
-    correct_top1 = 0  # Counter for top-1 matches
+    correct_top1 = 0
+    confusion_pairs = []
 
     for i, (img_id, gen_text) in enumerate(generated):
         gold_text = golds.get(img_id)
@@ -80,20 +81,20 @@ def evaluate_outputs(generated, golds, client):
             print(f"[Warning] No gold description for {img_id}")
             continue
 
-        # Cosine sim to all golds
         sim_scores = [
             cosine_similarity(gen_embeddings[i], gold_embeddings[j])
             for j in range(len(gold_embeddings))
         ]
         best_idx = int(np.argmax(sim_scores))
         predicted_id = gold_ids[best_idx]
+        confusion_pairs.append((img_id, predicted_id))
+
         if predicted_id == img_id:
             correct_top1 += 1
 
-        # Score to matched gold
         bleu = sentence_bleu([gold_text.split()], gen_text.split(), weights=(0.5, 0.5))
         scores = scorer.score(gold_text, gen_text)
-        cosine_sim = sim_scores[i]  # self-match
+        cosine_sim = sim_scores[i]
 
         result = {
             "id": img_id,
@@ -108,7 +109,7 @@ def evaluate_outputs(generated, golds, client):
         results.append(result)
 
     top1_accuracy = round(correct_top1 / len(generated), 4)
-    return results, top1_accuracy
+    return results, top1_accuracy, confusion_pairs
 
 def print_results(results):
     for r in results:
@@ -160,6 +161,23 @@ def save_experiment(prompt_text: str, results: list, top1_acc: float, output_dir
         print(f"- {k.upper()}: {v}")
     print(f"- TOP-1 ACCURACY: {top1_acc}")
 
+def print_confusion_matrix(confusion_pairs):
+    ids = sorted(set(i for i, _ in confusion_pairs) | set(j for _, j in confusion_pairs))
+    matrix = {true_id: Counter() for true_id in ids}
+
+    for true_id, pred_id in confusion_pairs:
+        matrix[true_id][pred_id] += 1
+
+    print("\n[Confusion Matrix (true → predicted)]")
+    header = " " * 12 + " ".join(f"{id:>12}" for id in ids)
+    print(header)
+    for true_id in ids:
+        row = f"{true_id:>12}"
+        for pred_id in ids:
+            count = matrix[true_id][pred_id]
+            row += f"{count:>12}"
+        print(row)
+
 if __name__ == "__main__":
     api_key = os.getenv("OPENAI_API_KEY")
     client = OpenAI(api_key=api_key)
@@ -169,6 +187,7 @@ if __name__ == "__main__":
     golds = load_gold_descriptions()
 
     generated = generate_descriptions(client, image_paths, prompt_text)
-    results, top1_acc = evaluate_outputs(generated, golds, client)
+    results, top1_acc, confusion_pairs = evaluate_outputs(generated, golds, client)
     print_results(results)
     save_experiment(prompt_text, results, top1_acc)
+    print_confusion_matrix(confusion_pairs)
