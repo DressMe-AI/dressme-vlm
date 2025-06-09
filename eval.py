@@ -60,9 +60,10 @@ def evaluate_outputs(generated, golds, client):
     results = []
 
     gen_texts = [gen for _, gen in generated]
-    gold_texts = [golds.get(id) for id, _ in generated]
+    gold_ids = [id for id, _ in generated]
+    gold_texts = [golds.get(id) for id in gold_ids]
 
-    # Batch embed
+    # Embed everything in one batch
     embedding_response = client.embeddings.create(
         model="text-embedding-3-small",
         input=gen_texts + gold_texts
@@ -71,15 +72,28 @@ def evaluate_outputs(generated, golds, client):
     gen_embeddings = embeddings[:len(gen_texts)]
     gold_embeddings = embeddings[len(gen_texts):]
 
+    correct_top1 = 0  # Counter for top-1 matches
+
     for i, (img_id, gen_text) in enumerate(generated):
         gold_text = golds.get(img_id)
         if not gold_text:
             print(f"[Warning] No gold description for {img_id}")
             continue
 
+        # Cosine sim to all golds
+        sim_scores = [
+            cosine_similarity(gen_embeddings[i], gold_embeddings[j])
+            for j in range(len(gold_embeddings))
+        ]
+        best_idx = int(np.argmax(sim_scores))
+        predicted_id = gold_ids[best_idx]
+        if predicted_id == img_id:
+            correct_top1 += 1
+
+        # Score to matched gold
         bleu = sentence_bleu([gold_text.split()], gen_text.split(), weights=(0.5, 0.5))
         scores = scorer.score(gold_text, gen_text)
-        cosine_sim = cosine_similarity(gen_embeddings[i], gold_embeddings[i])
+        cosine_sim = sim_scores[i]  # self-match
 
         result = {
             "id": img_id,
@@ -93,7 +107,8 @@ def evaluate_outputs(generated, golds, client):
         }
         results.append(result)
 
-    return results
+    top1_accuracy = round(correct_top1 / len(generated), 4)
+    return results, top1_accuracy
 
 def print_results(results):
     for r in results:
@@ -120,7 +135,7 @@ def compute_averages(results):
 
     return avg_scores
 
-def save_experiment(prompt_text: str, results: list, output_dir="experiments"):
+def save_experiment(prompt_text: str, results: list, top1_acc: float, output_dir="experiments"):
     os.makedirs(output_dir, exist_ok=True)
     timestamp = datetime.utcnow().isoformat()
     prompt_id = Path(PROMPT_PATH).stem
@@ -132,7 +147,8 @@ def save_experiment(prompt_text: str, results: list, output_dir="experiments"):
         "prompt_text": prompt_text,
         "timestamp": timestamp,
         "results": results,
-        "averages": averages
+        "averages": averages,
+        "top1_accuracy": top1_acc
     }
 
     output_path = Path(output_dir) / f"{prompt_id}_{timestamp.replace(':', '-')}.json"
@@ -142,6 +158,7 @@ def save_experiment(prompt_text: str, results: list, output_dir="experiments"):
     print("\n[Average Scores]")
     for k, v in averages.items():
         print(f"- {k.upper()}: {v}")
+    print(f"- TOP-1 ACCURACY: {top1_acc}")
 
 if __name__ == "__main__":
     api_key = os.getenv("OPENAI_API_KEY")
@@ -152,6 +169,6 @@ if __name__ == "__main__":
     golds = load_gold_descriptions()
 
     generated = generate_descriptions(client, image_paths, prompt_text)
-    results = evaluate_outputs(generated, golds, client)
+    results, top1_acc = evaluate_outputs(generated, golds, client)
     print_results(results)
-    save_experiment(prompt_text, results)
+    save_experiment(prompt_text, results, top1_acc)
